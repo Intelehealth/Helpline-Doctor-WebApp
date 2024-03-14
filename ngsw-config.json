@@ -30,7 +30,7 @@
   "dataGroups": [
     {
       "name": "api-performance",
-      "urls": ["/assets/i18n/**", "/api/**"],
+      "urls": ["/assets/i18n/**"],
       "cacheConfig": {
         "strategy": "performance",
         "maxSize": 100,
@@ -49,6 +49,15 @@
         "maxSize": 1000,
         "maxAge": "0",
         "timeout": "20s"
+      }
+    },
+    {
+      "name": "api",
+      "urls": ["/api/messages/**", "/api/support/**"],
+      "cacheConfig": {
+        "maxSize": 0,
+        "maxAge": "0u",
+        "strategy": "freshness"
       }
     }
   ]
