@@ -83,8 +83,7 @@
                 <p data-test-id="etPhoneNumber" *ngIf="getPersonAttributeValue('Telephone Number') !== 'NA'">
                   {{ getPersonAttributeValue("Telephone Number") }}
                   <a
-                    href="tel:{{ getPersonAttributeValue('Telephone Number') }}"
-                    target="_blank"
+                    (click)="startDr2PatientCall()"
                     class="icon-btn"
                     data-test-id="linkPhoneNumber"
                   >
