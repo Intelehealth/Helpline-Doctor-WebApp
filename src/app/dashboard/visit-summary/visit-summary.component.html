@@ -478,7 +478,7 @@
                               [class.text-muted]="!pei.value"
                               [attr.data-test-id]="'etValue'+pei.value.slice(0,2).trim()+'PhysicalExam'"
                             >
-                              {{ pei.value ? pei.value : ('None'|translate) }}
+                              {{ pei.value ? pei.value : (''|translate) }}
                             </div>
                           </div>
                         </li>
