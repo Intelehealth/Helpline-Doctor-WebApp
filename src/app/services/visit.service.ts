@@ -241,4 +241,17 @@ export class VisitService {
   getEndedVisits(speciality: string, page: number = 1): Observable<any> {
     return this.http.get(`${this.baseURLMindmap}/openmrs/getEndedVisits?speciality=${speciality}&page=${page}`);
   }
+
+  /**
+   * API to initiate call to connect doctor and patient
+   * @param {string} patientMobileNo - mobile no of the patient
+   * @param {string} doctorsMobileNo - mobile no of the doctor 
+   * @return {Observable<any>}
+   */
+  startCall(patientMobileNo, doctorsMobileNo) {
+    return this.http.post(`${this.baseURLMindmap}/mindmap/startCall`, {
+      patientMobileNo: patientMobileNo,
+      callerMobileNo: doctorsMobileNo,
+    });
+  }
 }

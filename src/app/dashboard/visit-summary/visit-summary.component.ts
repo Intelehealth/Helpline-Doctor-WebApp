@@ -160,7 +160,7 @@ export class VisitSummaryComponent implements OnInit, OnDestroy {
     private translationService: TranslationService,
     private visitSummaryService: VisitSummaryHelperService,
     private mindmapService: MindmapService) {
-    
+
     this.openChatFlag = this.router.getCurrentNavigation()?.extras?.state?.openChat;
 
     this.referSpecialityForm = new FormGroup({
@@ -551,7 +551,7 @@ export class VisitSummaryComponent implements OnInit, OnDestroy {
                   const splitByColon = familyHistory[i].split(':');
                   const splitByDot = splitByColon[1].trim().split("•");
                   splitByDot.forEach(element => {
-                    if(element.trim()){
+                    if (element.trim()) {
                       const splitByComma = element.split(',');
                       obj1.data.push({ key: splitByComma.shift().trim(), value: splitByComma.length ? splitByComma.toString().trim() : " " });
                     }
@@ -985,7 +985,7 @@ export class VisitSummaryComponent implements OnInit, OnDestroy {
     if (this.diagnosisForm.invalid || !this.isVisitNoteProvider) {
       return;
     }
-    if (this.existingDiagnosis.find(o=>o.diagnosisName.toLocaleLowerCase()===this.diagnosisForm.value.diagnosisName.toLocaleLowerCase())) {
+    if (this.existingDiagnosis.find(o => o.diagnosisName.toLocaleLowerCase() === this.diagnosisForm.value.diagnosisName.toLocaleLowerCase())) {
       this.toastr.warning(this.translateService.instant('Diagnosis Already Exist'), this.translateService.instant('Duplicate Diagnosis'));
       return;
     }
@@ -1364,7 +1364,7 @@ export class VisitSummaryComponent implements OnInit, OnDestroy {
         response.results.forEach((obs: ObsModel) => {
           const obs_values = obs.value.split(':');
           if (obs.encounter && obs.encounter.visit.uuid === this.visit.uuid) {
-            this.referrals.push({ uuid: obs.uuid, speciality: obs_values[0].trim(), facility: obs_values[1].trim(), priority: obs_values[2].trim(), reason: obs_values[3].trim() ? obs_values[3].trim(): '-' });
+            this.referrals.push({ uuid: obs.uuid, speciality: obs_values[0].trim(), facility: obs_values[1].trim(), priority: obs_values[2].trim(), reason: obs_values[3].trim() ? obs_values[3].trim() : '-' });
           }
         });
       });
@@ -1416,14 +1416,14 @@ export class VisitSummaryComponent implements OnInit, OnDestroy {
     this.diagnosisService.getObs(this.visit.patient.uuid, conceptIds.conceptFollow).subscribe((response: ObsApiResponseModel) => {
       response.results.forEach((obs: ObsModel) => {
         if (obs.encounter.visit.uuid === this.visit.uuid) {
-          let followUpDate, followUpTime, followUpReason,wantFollowUp;
-          if(obs.value.includes('Time:')) {
-           followUpDate = (obs.value.includes('Time:')) ? moment(obs.value.split(', Time: ')[0]).format('YYYY-MM-DD') : moment(obs.value.split(', Remark: ')[0]).format('YYYY-MM-DD');
-           followUpTime = (obs.value.includes('Time:')) ? obs.value.split(', Time: ')[1].split(', Remark: ')[0] : null;
-           followUpReason = (obs.value.split(', Remark: ')[1]) ? obs.value.split(', Remark: ')[1] : null;
-           wantFollowUp ='Yes';
+          let followUpDate, followUpTime, followUpReason, wantFollowUp;
+          if (obs.value.includes('Time:')) {
+            followUpDate = (obs.value.includes('Time:')) ? moment(obs.value.split(', Time: ')[0]).format('YYYY-MM-DD') : moment(obs.value.split(', Remark: ')[0]).format('YYYY-MM-DD');
+            followUpTime = (obs.value.includes('Time:')) ? obs.value.split(', Time: ')[1].split(', Remark: ')[0] : null;
+            followUpReason = (obs.value.split(', Remark: ')[1]) ? obs.value.split(', Remark: ')[1] : null;
+            wantFollowUp = 'Yes';
           } else {
-            wantFollowUp ='No';
+            wantFollowUp = 'No';
           }
           this.followUpForm.patchValue({
             present: true,
@@ -1443,21 +1443,21 @@ export class VisitSummaryComponent implements OnInit, OnDestroy {
   * @returns {void}
   */
   saveFollowUp() {
-    let body =  {
-        concept: conceptIds.conceptFollow,
-        person: this.visit.patient.uuid,
-        obsDatetime: new Date(),
-        value : '',
-        encounter: this.visitNotePresent.uuid
-      }
-    if(this.followUpForm.value.wantFollowUp === 'No') {
+    let body = {
+      concept: conceptIds.conceptFollow,
+      person: this.visit.patient.uuid,
+      obsDatetime: new Date(),
+      value: '',
+      encounter: this.visitNotePresent.uuid
+    }
+    if (this.followUpForm.value.wantFollowUp === 'No') {
       body.value = 'No';
     } else {
       if (this.followUpForm.invalid || !this.isVisitNoteProvider) {
         return;
       }
       body.value = (this.followUpForm.value.followUpReason) ?
-       `${moment(this.followUpForm.value.followUpDate).format('YYYY-MM-DD')}, Time: ${this.followUpForm.value.followUpTime}, Remark: ${this.followUpForm.value.followUpReason}` : `${moment(this.followUpForm.value.followUpDate).format('YYYY-MM-DD')}, Time: ${this.followUpForm.value.followUpTime}`;
+        `${moment(this.followUpForm.value.followUpDate).format('YYYY-MM-DD')}, Time: ${this.followUpForm.value.followUpTime}, Remark: ${this.followUpForm.value.followUpReason}` : `${moment(this.followUpForm.value.followUpDate).format('YYYY-MM-DD')}, Time: ${this.followUpForm.value.followUpTime}`;
     }
     this.encounterService.postObs(body).subscribe((res: ObsModel) => {
       if (res) {
@@ -1481,11 +1481,11 @@ export class VisitSummaryComponent implements OnInit, OnDestroy {
   * @returns {void}
   */
   sharePrescription() {
-    if(this.existingDiagnosis.length === 0){
+    if (this.existingDiagnosis.length === 0) {
       this.toastr.warning(this.translateService.instant('Diagnosis not added'), this.translateService.instant('Diagnosis Required'));
       return false;
     }
-    if(!this.followUpForm.value.present) {
+    if (!this.followUpForm.value.present) {
       this.toastr.warning(this.translateService.instant('Follow-up not added'), this.translateService.instant('Follow-up Required'));
       return false;
     }
@@ -1698,5 +1698,25 @@ export class VisitSummaryComponent implements OnInit, OnDestroy {
       body: "Click notification to see!"
     }
     this.mindmapService.notifyApp(hwUuid, payload).subscribe();
+  }
+
+  startDr2PatientCall() {
+    const patientNo = this.getPersonAttributeValue('Telephone Number')
+    const drDetails = this.getDoctorDetails();
+    const drNo = drDetails?.phoneNumber || drDetails?.whatsapp;
+
+    if (drNo) {
+      this.visitService.startCall(patientNo, `${drDetails?.countryCode}${drNo}`)
+        .subscribe({
+          next: () => {
+            this.toastr.success(this.translateService.instant('Calling to patient'));
+          },
+          error: () => {
+            this.toastr.error(this.translateService.instant('Unable to connect this call, please try again'));
+          }
+        });
+    } else {
+      this.toastr.error(this.translateService.instant('Update Dr. mobno.'), '');
+    }
   }
 }

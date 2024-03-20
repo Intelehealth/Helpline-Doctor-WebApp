@@ -83,8 +83,7 @@
                 <p data-test-id="etPhoneNumber" *ngIf="getPersonAttributeValue('Telephone Number') !== 'NA'">
                   {{ getPersonAttributeValue("Telephone Number") }}
                   <a
-                    href="tel:{{ getPersonAttributeValue('Telephone Number') }}"
-                    target="_blank"
+                    (click)="startDr2PatientCall()"
                     class="icon-btn"
                     data-test-id="linkPhoneNumber"
                   >
@@ -479,7 +478,7 @@
                               [class.text-muted]="!pei.value"
                               [attr.data-test-id]="'etValue'+pei.value.slice(0,2).trim()+'PhysicalExam'"
                             >
-                              {{ pei.value ? pei.value : ('None'|translate) }}
+                              {{ pei.value ? pei.value : (''|translate) }}
                             </div>
                           </div>
                         </li>
